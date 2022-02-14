@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,33 +9,47 @@ class AMyBuildingEscapeCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
+	/*
+	* Camera boom, positioning the camera behind the character 
+	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
-	/** Follow camera */
+	/* 
+	*Follow camera 
+	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 public:
 	AMyBuildingEscapeCharacter();
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
+	/*
+	* Base turn rate, in deg/sec. Other scaling may affect final turn rate. 
+	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
 
-	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
+	/*
+	* Base look up/down rate, in deg/sec. Other scaling may affect final rate. 
+	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
 protected:
 
-	/** Resets HMD orientation in VR. */
+	/*
+	* Resets HMD orientation in VR. 
+	*/
 	void OnResetVR();
 
-	/** Called for forwards/backward input */
+	/*
+	* Called for forwards/backward input 
+	*/
 	void MoveForward(float Value);
 
-	/** Called for side to side input */
+	/*
+	* Called for side to side input 
+	*/
 	void MoveRight(float Value);
 
 	virtual void BeginPlay() override;
@@ -85,6 +97,7 @@ private:
 
 	USkeletalMeshComponent *BodyMesh;
 	
+	//to store the result of a line trace
 	FHitResult HitResult;
 	
 	FVector LineStart;
