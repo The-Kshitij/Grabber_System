@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #include "MyBuildingEscapeCharacter.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -11,9 +9,6 @@
 #include "EnemyCharacter.h"
 #include "DrawDebugHelpers.h"
 #include "Components/SkeletalMeshComponent.h"
-
-//////////////////////////////////////////////////////////////////////////
-// AMyBuildingEscapeCharacter
 
 AMyBuildingEscapeCharacter::AMyBuildingEscapeCharacter()
 {
@@ -53,7 +48,7 @@ AMyBuildingEscapeCharacter::AMyBuildingEscapeCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
-//////////////////////////////////////////////////////////////////////////
+
 // Input
 
 void AMyBuildingEscapeCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
