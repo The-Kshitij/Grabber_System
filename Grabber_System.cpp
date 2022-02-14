@@ -93,7 +93,7 @@ void UGrabber_System::SetInput()
 void UGrabber_System::CalculateLineTraceEnd()
 {
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation,PlayerRotation);
-	LineTraceEnd=PlayerViewPointLocation+PlayerRotation.Vector()*400;
+	LineTraceEnd=PlayerViewPointLocation+PlayerRotation.Vector()*RangeForTrace;
 	//adding a custom amount of elevation
 	LineTraceEnd.Z=LineTraceEnd.Z-20;
 }
