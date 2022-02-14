@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Grabber_System.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
@@ -9,11 +6,7 @@
 // Sets default values for this component's properties
 UGrabber_System::UGrabber_System()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -21,11 +14,11 @@ UGrabber_System::UGrabber_System()
 void UGrabber_System::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp,Warning,TEXT("Grabber has been compiled."));
-	SetInput();
-	SetPhysicsHandle();
-	// ...
+	UE_LOG(LogTemp,Warning,TEXT("Grabber found."));
 	
+	//Initializations required
+	SetInput();
+	SetPhysicsHandle();	
 }
 
 
@@ -38,15 +31,14 @@ void UGrabber_System::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		UE_LOG(LogTemp,Warning,TEXT("Entering GrabState in TickComponent"));
 		CalculateLineTraceEnd();
 		PhysicsHandle->SetTargetLocation(LineTraceEnd+FVector(0,0,30));
-	}
-	// ...
+	}	
 }
-void UGrabber_System::HitDetection()
-{
-}
+
+//called when user does the grab actions, bounded in the set input function
 void UGrabber_System::Grab()
 {
 	CalculateLineTraceEnd();
+	//only want to grab objects that have physics enabled
 	FCollisionObjectQueryParams CollisionObjects(ECollisionChannel::ECC_PhysicsBody);
 	FCollisionQueryParams AdditionalParams(FName(TEXT("")),false,GetOwner());
 	if (PhysicsHandle)
@@ -65,6 +57,7 @@ void UGrabber_System::Grab()
 		}
 	}
 }
+//called when user does the grab actions, bounded in the set input function
 void UGrabber_System::Release()
 {
 	PhysicsHandle->ReleaseComponent();
@@ -87,6 +80,8 @@ void UGrabber_System::SetInput()
 	InputComponent=GetOwner()->FindComponentByClass<UInputComponent>();
 	if (InputComponent)
 	{
+		//since the aim to make it work like a grab so using IE_Pressed and IE_Released to ensure that the functions are called when the buttons are pressed and
+		// released
 		InputComponent->BindAction("GrabAction",IE_Pressed,this,&UGrabber_System::Grab);
 		InputComponent->BindAction("GrabAction",IE_Released,this,&UGrabber_System::Release);
 	}
@@ -99,5 +94,6 @@ void UGrabber_System::CalculateLineTraceEnd()
 {
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation,PlayerRotation);
 	LineTraceEnd=PlayerViewPointLocation+PlayerRotation.Vector()*400;
+	//adding a custom amount of elevation
 	LineTraceEnd.Z=LineTraceEnd.Z-20;
 }
