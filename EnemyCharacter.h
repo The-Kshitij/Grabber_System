@@ -1,5 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+/*
+This is just a dummy to test stealth takedowns
+*/
 #pragma once
 
 #include "CoreMinimal.h"
@@ -14,7 +15,8 @@ class MYBUILDINGESCAPE_API AEnemyCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AEnemyCharacter();
-
+	
+	//This is going to be called by outside objects
 	void RecieveTakeDown();
 
 	UFUNCTION(BlueprintImplementableEvent)
