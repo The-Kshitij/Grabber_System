@@ -33,6 +33,11 @@ public:
 	bool ShouldOpenDoor();
 
 private:
+	//The two variable below are to make the door generic, different doors could have different opening and closing positions
+	UPROPERTY(EditAnywhere)
+	float OpenedDoorAngle = 0.f;
+	UPROPERTY(EditAnywhere)
+	float ClosedDoorAngle = 0.f;
 	/*
 	The door has a pressure plate, if you have sufficient weight on the pressure plate, only then would the door open. 
 	*/
