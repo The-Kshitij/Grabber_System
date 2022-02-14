@@ -1,18 +1,14 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "DoorOpening.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "Math/UnrealMathVectorCommon.h"
 #include "Components/PrimitiveComponent.h"
 
-// Sets default values for this component's properties
+
 UDoorOpening::UDoorOpening()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+	
 	PrimaryComponentTick.bCanEverTick = true;
-	// ...
 }
 
 
@@ -21,6 +17,7 @@ void UDoorOpening::BeginPlay()
 {
 	Super::BeginPlay();
 	Rotation=GetOwner()->GetActorRotation();
+	//audio component was assigned using the editor
 	DoorSound=GetOwner()->FindComponentByClass<UAudioComponent>();
 	if (DoorSound)
 	{
@@ -28,7 +25,7 @@ void UDoorOpening::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp,Warning,TEXT("DoorSound has not been initialized for %s"),*(GetOwner()->GetName()));
+		UE_LOG(LogTemp,Error,TEXT("DoorSound has not been initialized for %s"),*(GetOwner()->GetName()));
 	}
 	
 	// ...
@@ -60,7 +57,10 @@ void UDoorOpening::OpenDoor(float DeltaTime)
 			IsDoorOpen=true;
 		}
 	}
-	Rotation.Yaw=FMath::Lerp(Rotation.Yaw,0.f,DeltaTime*1);
+	/*
+	This is to avoid a snapping of the door to the required angle.
+	*/
+	Rotation.Yaw=FMath::Lerp(Rotation.Yaw,OpenedDoorAngle,DeltaTime*1);
 	GetOwner()->SetActorRotation(Rotation);
 }
 void UDoorOpening::CloseDoor(float DeltaTime)
@@ -74,7 +74,8 @@ void UDoorOpening::CloseDoor(float DeltaTime)
 			IsDoorClose=true;
 		}
 	}
-	Rotation.Yaw=FMath::Lerp(Rotation.Yaw,90.f,DeltaTime*2);
+	//For smooth movement
+	Rotation.Yaw=FMath::Lerp(Rotation.Yaw,ClosedDoorAngle,DeltaTime*2);
 	GetOwner()->SetActorRotation(Rotation);
 }
 bool UDoorOpening::ShouldOpenDoor()
